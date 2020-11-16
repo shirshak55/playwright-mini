@@ -1,0 +1,15 @@
+{
+  "name": "playwright-mini",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "src/index.ts",
+  "repository": "https://github.com/shirshak55/playwright-mini",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "playwright": "^1.6.1",
+    "typescript": "^4.0.5"
+  }
+}
