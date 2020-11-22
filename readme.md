@@ -1,18 +1,111 @@
 ### Playwright Mini
 
+[docs](#docs)
+
 It is simple replacement of puppeteer extra but for playwright.
-
-### Why?
-
-Because google killed puppetter. Its not maintained properly. Lots of old bugs related to cookies are not fixed. And I dont see any future with puppetter.
-
-### Why renamed Playwright Extra to Playwright Mini?
-
-Actually I didn't realized the original developer have been developing another version of playwright extra. So I think they deserve the original name. I will be handing them the package name in future.
 
 ### Why Playwright?
 
-Because the original developer from puppetter repo now maintains playwright. And they are cool :)
+Because google killed puppetter. Its not maintained properly. Lots of old bugs related to cookies are not fixed. And I dont see any future with puppetter.
+
+### Usage?
+
+First create a project
+
+```bash
+mkdir automation
+cd automation
+yarn init
+```
+
+Create a tsconfig.json file and make it look like this. Feel free to adjust it :)
+
+```json
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "declarationMap": false,
+        "inlineSourceMap": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "noEmit": false,
+        "downlevelIteration": true,
+        "strict": true,
+        "noEmitOnError": true,
+
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "files": ["./src/index.ts"],
+    "exclude": ["node_modules"]
+}
+```
+
+```
+yarn add meow playwright playwright-mini source-map-support
+yarn add --dev typescript @types/node
+```
+
+After adding package.json should look like this. (Add scripts section so we can do `yarn watch` and `yarn start` later)
+
+```json
+{
+    "name": "automation",
+    "version": "1.0.0",
+    "main": "index",
+    "license": "MIT",
+    "scripts": {
+        "start": "node dist/main",
+        "watch": "tsc --watch"
+    },
+    "dependencies": {
+        "meow": "^8.0.0",
+        "playwright": "^1.6.1",
+        "playwright-mini": "^1.0.0",
+        "source-map-support": "^0.5.19"
+    },
+    "devDependencies": {
+        "@types/node": "^14.14.7",
+        "typescript": "^4.0.5"
+    }
+}
+```
+
+Create `src` directory with `index.ts` file inside it
+
+```ts
+import "source-map-support/register"
+import { Browser, BrowserContext, firefox, Page } from "playwright"
+import { pageStealth } from "playwright-mini"
+
+async function main() {
+    // If you want to sue chromium import chromium and change headless as ur wish
+    let browser = await firefox.launch({ headless: false })
+    let context = await browser.newContext({ ignoreHTTPSErrors: true })
+
+    let page = await context.newPage()
+
+    await pageStealth(page)
+
+    await page.goto("https://fast.com")
+}
+
+main().catch((e) => {
+    cm.error("Error from Main", e)
+})
+```
 
 ### Why not same structure as Puppetter Mini?
 

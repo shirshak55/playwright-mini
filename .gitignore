@@ -7,3 +7,4 @@ tests/manual
 _gitignore
 *.log
 .vscode
+.DS_Store

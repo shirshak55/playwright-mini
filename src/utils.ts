@@ -40,7 +40,7 @@ utils.stripProxyFromErrors = (handler: any = {}) => {
         // We try to use a known "anchor" line for that and strip it with everything above it.
         // If the anchor line cannot be found for some reason we fall back to our blacklist approach.
 
-        const stripWithBlacklist = (stack: any) => {
+        const stripWithBlacklist = (_stack: any) => {
           const blacklist = [
             `at Reflect.${trap} `, // e.g. Reflect.get or Reflect.apply
             `at Object.${trap} `, // e.g. Object.get or Object.apply
@@ -50,9 +50,12 @@ utils.stripProxyFromErrors = (handler: any = {}) => {
             err.stack
               .split("\n")
               // Always remove the first (file) line in the stack (guaranteed to be our proxy)
-              .filter((line: any, index: any) => index !== 1)
+              .filter((_line: any, index: any) => index !== 1)
               // Check if the line starts with one of our blacklisted strings
-              .filter((line: any) => !blacklist.some((bl) => line.trim().startsWith(bl)))
+              .filter(
+                (line: any) =>
+                  !blacklist.some((bl) => line.trim().startsWith(bl))
+              )
               .join("\n")
           )
         }
@@ -60,7 +63,9 @@ utils.stripProxyFromErrors = (handler: any = {}) => {
         const stripWithAnchor = (stack: any) => {
           const stackArr = stack.split("\n")
           const anchor = `at Object.newHandler.<computed> [as ${trap}] ` // Known first Proxy line in chromium
-          const anchorIndex = stackArr.findIndex((line: any) => line.trim().startsWith(anchor))
+          const anchorIndex = stackArr.findIndex((line: any) =>
+            line.trim().startsWith(anchor)
+          )
           if (anchorIndex === -1) {
             return false // 404, anchor not found
           }
@@ -88,7 +93,9 @@ utils.stripProxyFromErrors = (handler: any = {}) => {
  */
 utils.stripErrorWithAnchor = (err: any, anchor: any) => {
   const stackArr = err.stack.split("\n")
-  const anchorIndex = stackArr.findIndex((line: any) => line.trim().startsWith(anchor))
+  const anchorIndex = stackArr.findIndex((line: any) =>
+    line.trim().startsWith(anchor)
+  )
   if (anchorIndex === -1) {
     return err // 404, anchor not found
   }
@@ -201,9 +208,9 @@ utils.patchToString = (obj: any, str = "") => {
       }
       // Check if the toString protype of the context is the same as the global prototype,
       // if not indicates that we are doing a check across different windows., e.g. the iframeWithdirect` test case
-      const hasSameProto = Object.getPrototypeOf(Function.prototype.toString).isPrototypeOf(
-        ctx.toString
-      ) // eslint-disable-line no-prototype-builtins
+      const hasSameProto = Object.getPrototypeOf(
+        Function.prototype.toString
+      ).isPrototypeOf(ctx.toString) // eslint-disable-line no-prototype-builtins
       if (!hasSameProto) {
         // Pass the call on to the local Function.prototype.toString instead
         return ctx.toString()
@@ -254,9 +261,9 @@ utils.redirectToString = (proxyObj: any, originalObj: any) => {
 
       // Check if the toString protype of the context is the same as the global prototype,
       // if not indicates that we are doing a check across different windows., e.g. the iframeWithdirect` test case
-      const hasSameProto = Object.getPrototypeOf(Function.prototype.toString).isPrototypeOf(
-        ctx.toString
-      ) // eslint-disable-line no-prototype-builtins
+      const hasSameProto = Object.getPrototypeOf(
+        Function.prototype.toString
+      ).isPrototypeOf(ctx.toString) // eslint-disable-line no-prototype-builtins
       if (!hasSameProto) {
         // Pass the call on to the local Function.prototype.toString instead
         return ctx.toString()
@@ -307,7 +314,12 @@ utils.replaceWithProxy = (obj: any, propName: any, handler: any) => {
  * @param {object} pseudoTarget - The JS Proxy target to use as a basis
  * @param {object} handler - The JS Proxy handler to use
  */
-utils.mockWithProxy = (obj: any, propName: any, pseudoTarget: any, handler: any) => {
+utils.mockWithProxy = (
+  obj: any,
+  propName: any,
+  pseudoTarget: any,
+  handler: any
+) => {
   utils.preloadCache()
   const proxyObj = new Proxy(pseudoTarget, utils.stripProxyFromErrors(handler))
 
@@ -419,9 +431,10 @@ utils.stringifyFns = (fnObj = { hello: () => "world" }) => {
       return obj
     }, {})
   }
+  //@ts-ignore
   return (Object.fromEntries || fromEntries)(
     Object.entries(fnObj)
-      .filter(([key, value]) => typeof value === "function")
+      .filter(([_key, value]) => typeof value === "function")
       .map(([key, value]) => [key, value.toString()]) // eslint-disable-line no-eval
   )
 }
@@ -433,6 +446,7 @@ utils.stringifyFns = (fnObj = { hello: () => "world" }) => {
  * @param {object} fnStrObj - An object containing stringified functions as properties
  */
 utils.materializeFns = (fnStrObj = { hello: "() => 'world'" }) => {
+  //@ts-ignore
   return Object.fromEntries(
     Object.entries(fnStrObj).map(([key, value]) => {
       if (value.startsWith("function")) {
