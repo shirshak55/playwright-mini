@@ -1,6 +1,12 @@
 ### Playwright Mini
 
-[docs](#docs)
+[![npm version](https://img.shields.io/npm/v/playwright-mini.svg)](https://www.npmjs.com/package/playwright-mini)
+![CI](https://github.com/shirshak55/playwright-mini/workflows/CI/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/sindresorhus/got/badge.svg?branch=mini)](https://coveralls.io/github/shirshak55/playwright-mini?branch=mini)
+[![Downloads](https://img.shields.io/npm/dm/playwright-mini.svg)](https://npmjs.com/playwright-mini)
+[![Install size](https://packagephobia.now.sh/badge?p=playwright-mini)](https://packagephobia.now.sh/result?p=playwright-mini)
+
+[docs](#usage)
 
 It is simple replacement of puppeteer extra but for playwright.
 
@@ -22,34 +28,34 @@ Create a tsconfig.json file and make it look like this. Feel free to adjust it :
 
 ```json
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "declaration": false,
-        "declarationMap": false,
-        "inlineSourceMap": true,
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "noEmit": false,
-        "downlevelIteration": true,
-        "strict": true,
-        "noEmitOnError": true,
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": false,
+    "declarationMap": false,
+    "inlineSourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "noEmit": false,
+    "downlevelIteration": true,
+    "strict": true,
+    "noEmitOnError": true,
 
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
 
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
 
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true
-    },
-    "files": ["./src/index.ts"],
-    "exclude": ["node_modules"]
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "files": ["./src/index.ts"],
+  "exclude": ["node_modules"]
 }
 ```
 
@@ -62,24 +68,24 @@ After adding package.json should look like this. (Add scripts section so we can 
 
 ```json
 {
-    "name": "automation",
-    "version": "1.0.0",
-    "main": "index",
-    "license": "MIT",
-    "scripts": {
-        "start": "node dist/main",
-        "watch": "tsc --watch"
-    },
-    "dependencies": {
-        "meow": "^8.0.0",
-        "playwright": "^1.6.1",
-        "playwright-mini": "^1.0.0",
-        "source-map-support": "^0.5.19"
-    },
-    "devDependencies": {
-        "@types/node": "^14.14.7",
-        "typescript": "^4.0.5"
-    }
+  "name": "automation",
+  "version": "1.0.0",
+  "main": "index",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/main",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "meow": "^8.0.0",
+    "playwright": "^1.6.1",
+    "playwright-mini": "^1.0.0",
+    "source-map-support": "^0.5.19"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.7",
+    "typescript": "^4.0.5"
+  }
 }
 ```
 
@@ -91,19 +97,19 @@ import { Browser, BrowserContext, firefox, Page } from "playwright"
 import { pageStealth } from "playwright-mini"
 
 async function main() {
-    // If you want to sue chromium import chromium and change headless as ur wish
-    let browser = await firefox.launch({ headless: false })
-    let context = await browser.newContext({ ignoreHTTPSErrors: true })
+  // If you want to sue chromium import chromium and change headless as ur wish
+  let browser = await firefox.launch({ headless: false })
+  let context = await browser.newContext({ ignoreHTTPSErrors: true })
 
-    let page = await context.newPage()
+  let page = await context.newPage()
 
-    await pageStealth(page)
+  await pageStealth(page)
 
-    await page.goto("https://fast.com")
+  await page.goto("https://fast.com")
 }
 
 main().catch((e) => {
-    cm.error("Error from Main", e)
+  cm.error("Error from Main", e)
 })
 ```
 
@@ -115,8 +121,8 @@ First I don't like that approach 12 gadget inside 12 folder and one package depe
 
 I don't plan adding too much for simplicity. I just want to add only necessary stuff thats required for automation. Like I am not going to include adblocker extension etc.
 
--   [x] Stealth
--   [ ] Captcha
+- [x] Stealth
+- [ ] Captcha
 
 ### Others
 
@@ -124,9 +130,9 @@ You may want to checkout (scrapper tools)[https://github.com/shirshak55/scrapper
 
 ### Thanks
 
--   @berstend his repo is main inspiration to do this.
--   @shirshak55 thats me :D
--   @playwright-team
+- @berstend his repo is main inspiration to do this.
+- @shirshak55 thats me :D
+- @playwright-team
 
 ### Disclaimer
 
